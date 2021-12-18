@@ -20,10 +20,6 @@
   grid-template-columns: 1fr 396px 1fr;  
 }
 
-.header_section_not-found {
-  background: #f8f8f8;
-}
-
 @media screen and (max-width: 1024px) {
   .header {
     padding: 18px 50px;
