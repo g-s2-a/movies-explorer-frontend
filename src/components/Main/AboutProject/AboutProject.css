@@ -1,0 +1,151 @@
+.about-project {
+  padding: 110px 70px;
+  background: #202020;
+}
+
+.about-project__title {
+  margin-bottom: 70px;
+}
+
+.about-project__subtitle {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -.04em;
+  margin: 0 0 26px;
+}
+
+.about-project__txt {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.about-project__two-columns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 110px;
+}
+
+.about-project__two-columns:last-of-type {
+  margin-bottom: 0;
+}
+
+.about-project__column {
+  width: 47%;
+}
+
+.about-project__left-column {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about-project__right-column {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about-project__diagram {
+  width: 100%;
+  text-align: center;
+  padding: 9px 0;
+  font-size: 14px;
+  line-height: 17px;
+  margin: 0 0 14px;
+}
+
+.about-project__diagram_backend {
+  background: #3DDC84;
+  color: #000;
+}
+
+.about-project__diagram_frontend {
+  background: #303030;
+}
+
+.about-project__diagram-caption {
+  font-size: 14px;
+  line-height: 17px;
+  color: #8B8B8B;
+  margin: 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .about-project {
+    padding: 90px 50px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .about-project__two-columns {
+    margin-bottom: 93px;
+  }
+
+  .about-project__txt {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .about-project {
+    padding: 70px 18px;
+  }
+
+  .about-project__title {
+    margin-bottom: 60px;
+  }
+
+  .about-project__two-columns {
+    margin-bottom: 60px;
+    flex-direction: column;
+  }
+
+  .about-project__two-columns:last-of-type {
+    flex-direction: row;
+  }
+
+  .about-project__column {
+    width: 100%;
+    margin-bottom: 56px;
+  }
+
+  .about-project__column:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .about-project__subtitle {
+    font-size: 18px;
+    line-height: 22px;
+    margin-bottom: 16px;
+  }
+
+  .about-project__txt {
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .about-project__left-column {
+    width: 35%;
+  }
+
+  .about-project__right-column {
+    width: 65%;
+  }
+
+  .about-project__diagram {
+    font-size: 11px;
+    line-height: 13px;
+    padding: 11px 0;
+  }
+
+  .about-project__diagram-caption {
+    font-size: 11px;
+    line-height: 13px;
+  }
+}

@@ -1,0 +1,18 @@
+.tech {
+  padding: 21px 0 21px;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -.04em; 
+  width: 100%;
+  background: #303030;
+  border-radius: 10px;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .tech {
+    font-size: 12px;
+    
+    line-height: 15px;
+  }
+}
