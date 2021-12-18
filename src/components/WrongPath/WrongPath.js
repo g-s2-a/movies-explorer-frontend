@@ -9,6 +9,7 @@ const WrongPath = () => (
       <p className="wrong-path__subtitle">Страница не найдена</p>
       <Link to="/" className="wrong-path__back-link">Назад</Link>
     </section>
+    
   </>
 );
 
