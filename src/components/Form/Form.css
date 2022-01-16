@@ -116,6 +116,11 @@
   transition: opacity .5s ease-in-out;   
 }
 
+.form__submit-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 .form__submit-button:hover {
   opacity: .5;
   transition: opacity .5s ease-in-out;

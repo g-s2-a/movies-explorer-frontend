@@ -4,7 +4,7 @@ import { facebook, github, praktikum } from '../../utils/links';
 
 const Footer = () => (
   <footer className="footer">
-    <p className="footer__txt">Учебный проект Яндекс.Практикум х BeatFilm.</p>
+    <p className="footer__txt">Учебный проект Яндекс.Практикум</p>
     <div className="footer__block">
       <p className="footer__copyright">&copy; {new Date().getFullYear()}</p>
       <ul className="footer__list">

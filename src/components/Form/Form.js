@@ -4,11 +4,11 @@ import './Form.css';
 
 
 const Form = ({
-  children, submitButtonMod = '', buttonText, caption = '', linkPath, linkText, linkMod = '',
+  children, submitButtonMod = '', disabled, buttonText, caption = '', linkPath, linkText, linkMod = '', onSubmit
 }) => (
-  <form className="form">
+  <form className="form" onSubmit={onSubmit}>
     {children}
-    <button className={`form__submit-button ${submitButtonMod}`}>{buttonText}</button>
+    <button className={`form__submit-button ${submitButtonMod}`} disabled={disabled}>{buttonText}</button>
     <p className="form__caption">
       {caption}
       <Link to={linkPath} className={`form__link ${linkMod}`}>{linkText}</Link>
