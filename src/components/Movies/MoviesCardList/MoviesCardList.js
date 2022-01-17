@@ -5,15 +5,18 @@ import './MoviesCardList.css';
 
 function MoviesCardList(props) {
 
-  const [counter, setCounter] = React.useState(3);
+  const [counter, setCounter] = React.useState(12);
 
   function showMoreMovies() {
     let addCountCards = 3;
+    
     const pageWidth = document.documentElement.scrollWidth;
 
     if (pageWidth <= 768) {
+      setCounter(8);
       addCountCards = 2;
     } else if (pageWidth <= 480) {
+      setCounter(5);
       addCountCards = 2;
     };
 

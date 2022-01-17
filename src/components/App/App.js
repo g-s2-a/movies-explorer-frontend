@@ -291,7 +291,7 @@ function App() {
           setCurrentUser(userData);
 
           const savedMoviesList = savedMovies.filter(
-            (item) => item.owner._id === userData._id
+            (item) => item.owner === userData._id
           );
           localStorage.setItem("userMovies", JSON.stringify(savedMoviesList));
           setUserMovies(savedMoviesList);

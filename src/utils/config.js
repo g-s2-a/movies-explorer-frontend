@@ -1,8 +1,8 @@
 export const baseUrl    = "https://api.nomoreparties.co";
 export const BASE_URL   = "https://api.nomoreparties.co/beatfilm-movies";
 
-/* export const MAIN_API   = "http://localhost:4000/";
-export const AUTH       = "http://localhost:4000"; */
+/*export const MAIN_API   = "http://localhost:4000/";
+export const AUTH       = "http://localhost:4000";*/
 
 export const MAIN_API   = "https://domainname1b.nomoredomains.rocks/";
 export const AUTH       = "https://domainname1b.nomoredomains.rocks";
