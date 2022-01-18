@@ -6,7 +6,6 @@ import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 import Preloader from '../Movies/Preloader/Preloader';
 
-const isLoading = false;
 
 const Movies = (props) => (
   <>
@@ -17,6 +16,7 @@ const Movies = (props) => (
       onGetMovies={props.onGetMovies}
       onFilter={props.onFilter}
       isShortMovie={props.isShortMovie}
+      searchBar={props.searchBar}
      />
     <Suspense fallback={<Preloader />}>
       <MoviesCardList 
@@ -30,7 +30,7 @@ const Movies = (props) => (
           />
     </Suspense>
     <Footer />
-    {isLoading && <Preloader />}
+    {props.isLoading && <Preloader />}
   </>
 );
 

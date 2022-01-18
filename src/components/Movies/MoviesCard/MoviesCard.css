@@ -11,6 +11,7 @@
   border-radius: 6px;
   object-fit: cover;
   object-position: center;
+  max-width: 360px;
 }
 
 .movie__txt-container {

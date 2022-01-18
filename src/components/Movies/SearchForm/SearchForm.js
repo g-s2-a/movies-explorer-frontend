@@ -2,9 +2,11 @@ import React from 'react';
 import './SearchForm.css';
 
 function SearchForm(props) {
-  const [findedMovie, setFindedMovie] = React.useState("");
+  const [findedMovie, setFindedMovie] = React.useState(props.searchBar);
   const [error, setError] = React.useState("");
   const [formValid, setFormValid] = React.useState(false);
+
+
 
   function handleSearchMovie(e) {
     setFindedMovie(e.target.value);
@@ -19,8 +21,10 @@ function SearchForm(props) {
     e.preventDefault();
     setError("");
     props.onGetMovies(findedMovie);
-    setFindedMovie("");
+    //setFindedMovie("");
   }
+
+//searchBar
 
   React.useEffect(() => {
     if (findedMovie && !error) {

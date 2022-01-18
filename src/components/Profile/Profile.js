@@ -5,7 +5,6 @@ import Section from '../Section/Section';
 import Form from '../Form/Form';
 import './Profile.css';
 
-import { Link } from "react-router-dom";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function Profile(props) {
@@ -98,10 +97,12 @@ function Profile(props) {
       <Form
         buttonText="Редактировать"
         submitButtonMod="form__submit-button_section_profile"
-        linkPath="/signin"
+        linkPath="/"
         linkText="Выйти из аккаунта"
         linkMod="form__link_type_exit"
         onSubmit={handleSubmit}
+        onSignOut={props.onSignOut}
+        disabled={!formValid}
       >
         <fieldset className="form__fieldset form__fieldset_section_profile">
           <div className="form__input-container">

@@ -8,20 +8,23 @@ import mainApi from "../../utils/MainApi";
 import * as moviesApi from "../../utils/MoviesApi";
 
 import Main from '../Main/Main';
-import PopupMenu from "../Menu/Menu";
+
 import Movies from '../Movies/Movies';
 
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
-import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation,Redirect } from 'react-router-dom';
 import WrongPath from '../WrongPath/WrongPath';
 
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import * as auth from "../../utils/auth";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { MAX_SHORT_MOVIE_DORATION } from "../../utils/config";
+import errorImg from '../../images/error.png';
+import successImg from '../../images/green-tick.png';
+
 
 
 function App() {
@@ -34,11 +37,31 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const [sortedMovies, setSortedMovies] = React.useState([]);
+  const [isFormDisabled, setIsFormDisabled] = React.useState(false);
 
   const [movies, setMovies] = React.useState([]);
   const [userMovies, setUserMovies] = React.useState([]);
-  const [shortMovies, setShortMovies] = React.useState(false);
+  const [shortMovies, setShortMovies] = React.useState(JSON.parse(localStorage.getItem("shortMovies")));
   const [moviesMessage, setMoviesMessage] = React.useState("");
+
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
+  const [infoTooltipImage, setInfoTooltipImage] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const showError = (msg) => {
+    setMessage(msg);
+    setInfoTooltipImage(errorImg);
+    setIsInfoTooltipOpen(true);
+  };
+
+  const showSuccess = (msg) => {
+    setMessage(msg);
+    setInfoTooltipImage(successImg);
+    setIsInfoTooltipOpen(true);
+  };
+
+  //const [searchBar, setSearchBar] = React.useState("");
+  
   
   let location = useLocation();
 
@@ -81,9 +104,9 @@ function App() {
       })
       .catch((err) => {
         if (err === 409) {
-          setMessage("Пользователь с таким email уже существует");
+          showError("Пользователь с таким email уже существует");
         } else {
-          setMessage("При регистрации пользователя произошла ошибка");
+          showError("При регистрации пользователя произошла ошибка");
         }
       });
   }
@@ -94,7 +117,7 @@ function App() {
       .authorize(email, password)
       .then((data) => {
         if (!data) {
-          setMessage("Что-то пошло не так");
+          showError("Что-то пошло не так");
           return false;
         }
         if (data.token) {
@@ -107,30 +130,34 @@ function App() {
         }
       })
       .catch((err) => {
-        setMessage("При авторизации произошла ошибка");
+        showError("При авторизации произошла ошибка");
         if (err === 401) {
-          setMessage("Пользователь с таким email не найден");
+          showError("Пользователь с таким email не найден");
         }
         if (err === 400) {
-          setMessage("Неверный email или пароль");
+          showError("Неверный email или пароль");
         }
         localStorage.removeItem("jwt");
       });
   }
 
+  // обновление профиля
   function handleUpdateUser(data) {
+
+
+
     mainApi
       .editUserInfo(data)
       .then((editedData) => {
         setCurrentUser(editedData);
-        setMessage("Данные профиля успешно обновлены");
+        showSuccess("Данные профиля успешно обновлены");
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
         if (err.status === 409) {
-          setMessage("Пользователь с таким email уже существует");
+          showError("Пользователь с таким email уже существует");
         } else {
-          setMessage("При изменении данных профиля произошла ошибка");
+          showError("При изменении данных профиля произошла ошибка");
         }
       });
   }
@@ -141,6 +168,8 @@ function App() {
     localStorage.removeItem("movies");
     localStorage.removeItem("sortedMovies");
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("searchBar");
+    localStorage.removeItem("shortMovies");
     setUserMovies([]);
     setSortedMovies([]);
     setCurrentUser({});
@@ -177,26 +206,36 @@ function App() {
   }
 
   // поиск фильмов
-  function handleGetMovies(keyword) {
-    setMoviesMessage("");
-    const key = new RegExp(keyword, "gi");
-    const findedMovies = movies.filter(
-      (item) => key.test(item.nameRU) || key.test(item.nameEN)
-    );
-    if (findedMovies.length === 0) {
-      setMoviesMessage("Ничего не найдено");
-    } else {
+  const handleGetMovies = async (keyword) => {
+    setIsLoading(true);
+    try {
+
       setMoviesMessage("");
-      const checkedLikes = findedMovies.map((movie) => {
-        movie.isSaved = userMovies.some(
-          (userMovie) => userMovie.movieId === movie.id
-        );
-        return movie;
-      });
-      setSortedMovies(checkedLikes);
-      localStorage.setItem("sortedMovies", JSON.stringify(checkedLikes));
+      const key = new RegExp(keyword, "gi");
+      const findedMovies = movies.filter(
+        (item) => key.test(item.nameRU) || key.test(item.nameEN)
+      );
+
+      if (findedMovies.length === 0) {
+        setMoviesMessage("Ничего не найдено");
+      } else {
+        setMoviesMessage("");
+        const checkedLikes = findedMovies.map((movie) => {
+          movie.isSaved = userMovies.some(
+            (userMovie) => userMovie.movieId === movie.id
+          );
+          return movie;
+        });
+        setSortedMovies(checkedLikes);
+        localStorage.setItem("sortedMovies", JSON.stringify(checkedLikes));
+        localStorage.setItem("searchBar", keyword);
+      }
+    } catch (err) {
+      showError("Ошибка при поиске фильмов");
+    } finally {
+      setIsLoading(false);
     }
-	}
+  };
 
   function handleMovieDeleteButton(movie) {
     handleDislikeClick(movie);
@@ -263,6 +302,7 @@ function App() {
   }
 
   function handleCheckBox() {
+    localStorage.setItem("shortMovies",!shortMovies);    
     setShortMovies(!shortMovies);
   }
 
@@ -303,6 +343,10 @@ function App() {
   }, [loggedIn]);
 
   React.useEffect(() => {
+    localStorage.getItem("sortedMovies") && setSortedMovies(JSON.parse(localStorage.getItem("sortedMovies")));
+  }, []);
+
+  React.useEffect(() => {
     checkSavedMovie(sortedMovies);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userMovies]);
@@ -327,7 +371,7 @@ function App() {
       <Switch>
 
         <Route exact path="/">
-          <Main />
+          <Main loggedIn={loggedIn} onMenu={handleMenu}/>
         </Route>
 
         <ProtectedRoute
@@ -342,16 +386,22 @@ function App() {
           onSignOut={handleSignOut}
           likedMovies={checkSavedMovie}
           movies={filterShortMovies(sortedMovies)}
+          searchBar = {localStorage.getItem("searchBar")}
           onGetMovies={handleGetMovies}
           onAddMovie={handleLikeChange}
+          isLoading={isLoading}
         />
 
         <Route path="/signin">
-          <Login onLogin={handleLogin} loggedIn={loggedIn} message={message} />
+          {!loggedIn
+              ? <Login onLogin={handleLogin} loggedIn={loggedIn} message={message} /> : <Redirect to="/movies" />
+            }
         </Route>
 
         <Route path="/signup">
-          <Register onRegister={handleRegister} message={message} />
+          {!loggedIn
+              ? <Register onRegister={handleRegister} message={message} /> : <Redirect to="/movies" />
+            }
         </Route>
 
         <ProtectedRoute
@@ -378,6 +428,7 @@ function App() {
           onSignOut={handleSignOut}
           onEditUser={handleUpdateUser}
           onMenu={handleMenu}
+          isFormDisabled={isFormDisabled}
         />
 
         <Route path='*'>
@@ -386,7 +437,12 @@ function App() {
 
       </Switch>
        {/* <PopupMenu isOpen={isMenuOpen} onClose={closeMenu} />  */}
-      <InfoTooltip />
+       <InfoTooltip
+        image={infoTooltipImage}
+        message={message}
+        isOpen={isInfoTooltipOpen}
+        setIsOpen={setIsInfoTooltipOpen}
+      />
     </CurrentUserContext.Provider>
   );
 }

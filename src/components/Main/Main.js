@@ -12,12 +12,10 @@ import Footer from '../Footer/Footer';
 
 import './Main.css';
 
-const isLoggedIn = false;
-
-const Main = () => (
+const Main = (props) => (
   <>
     <Header mod="header_section_main">
-      {!isLoggedIn ? <AuthNav /> : <Navigation />}
+      {!props.loggedIn ? <AuthNav /> : <Navigation />}
     </Header>
     <Promo />
     <NavTab className="navTab" />

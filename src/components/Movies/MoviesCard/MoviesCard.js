@@ -51,9 +51,9 @@ function MoviesCard(props) {
             (props.duration || props.movie.duration) / 60
           )}ч ${(props.duration || props.movie.duration) % 60}м`}</span>
       </div>
-        {!props.isSavedMovies && <button className="movie__button movie__button_type_save" onClick={handleLikeClick} >Cохранить</button>}
-        {(props.isSavedMovies && isLiked) && <button className="movie__button movie__button_type_remove" onClick={handleDeleteClick} />}
-        {props.isSavedMovies && <span className="movie__button movie__saved-icon"/>}
+        {(!props.isSavedMovies && !isLiked) && <button className="movie__button movie__button_type_save" onClick={handleLikeClick} >Cохранить</button>}
+        {props.isSavedMovies && <button className="movie__button movie__button_type_remove" onClick={handleDeleteClick} />}
+        {(!props.isSavedMovies && isLiked) && <span className="movie__button movie__saved-icon"/>}
     </li>
   );
 };
