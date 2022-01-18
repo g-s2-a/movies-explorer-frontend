@@ -170,6 +170,7 @@ function App() {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("searchBar");
     localStorage.removeItem("shortMovies");
+    
     setUserMovies([]);
     setSortedMovies([]);
     setCurrentUser({});
@@ -362,7 +363,7 @@ function App() {
         console.log(`Ошибка: ${err}`);
         localStorage.removeItem("movies");
       });
-  }, [currentUser]);
+  }, [loggedIn]);
 
 
 
