@@ -1,0 +1,124 @@
+.mobile-menu {
+  display: flex;
+  z-index: 1;
+}
+
+.mobile-menu__label {
+  cursor: pointer;
+  z-index: 2;
+  transition: opacity .05s ease-in-out;
+  width: 28px;
+  height: 23px;
+  position: relative;  
+}
+
+.mobile-menu__label:hover {
+  opacity: .6;
+  transition: opacity .05s ease-in-out;
+}
+
+.mobile-menu__checkbox {
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  position: absolute;
+  width: 1px;
+  height: 1px;  
+}
+
+.mobile-menu__button,
+.mobile-menu__button::before,
+.mobile-menu__button::after {
+
+  height: 3px;
+  background: #ffffff;
+  transition-duration: .1s;
+  display: block;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 100%;  
+  
+}
+
+.mobile-menu__button::before {
+  content: '';
+  top: -10px;
+}
+.mobile-menu__button::after {
+  content: '';
+  top: 10px;
+}
+
+.mobile-menu__checkbox:checked ~ .mobile-menu__label > .mobile-menu__button {
+  transform: rotate(45deg);
+}
+.mobile-menu__checkbox:checked ~ .mobile-menu__label > .mobile-menu__button::before {
+  top: 0;
+  transform: rotate(180deg);
+}
+.mobile-menu__checkbox:checked ~ .mobile-menu__label > .mobile-menu__button::after {
+  top: 0;
+  transform: rotate(270deg);
+}
+
+.mobile-menu__nav-container {
+  height: 100vh;
+  background: rgba(0, 0, 0, .3);
+  display: flex;
+  justify-content: flex-end;
+  transition-duration: .04s;
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100vw;  
+}
+
+.mobile-menu__checkbox:checked ~ .mobile-menu__nav-container {
+  visibility: visible;
+  right: 0;
+}
+
+.mobile-menu__nav {
+  justify-content: space-between;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: 1fr;
+  align-items: baseline;
+  width: 100%;
+  max-width: 520px;
+  height: 100%;
+  background: #202020;
+  box-sizing: border-box;
+  flex-direction: column;
+}
+
+.mobile-menu__nav-list {
+  grid-column: 1;
+  padding-top: 159px;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;  
+}
+
+.mobile-menu__nav-list-item {
+  margin: 0 0 22px;
+}
+
+.mobile-menu__nav-link {
+  text-align: center;
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 18px;
+  line-height: 22px;
+  padding: 0 0 4px;  
+}
+
+.mobile-menu__nav-link_active {
+  border-bottom: #000 2px solid;
+}
+
+@media screen and (max-width: 425px) {
+  .mobile-menu__nav {
+    padding: 144px 0 48px;
+  }
+}
